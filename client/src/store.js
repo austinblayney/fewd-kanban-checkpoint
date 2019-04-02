@@ -25,7 +25,11 @@ export default new Vuex.Store({
     user: {},
     boards: [],
     activeBoard: {},
-    lists: []
+    lists: [],
+    tasks: {
+      //listId370049vj: [{task}],      
+      //listId4;qkjefn: [{task}]      
+    }
   },
   mutations: {
     setUser(state, user) {
@@ -39,6 +43,38 @@ export default new Vuex.Store({
     },
     addList(state, list) {
       state.lists.push(list)
+    },
+    removeList(state, listId) {
+      for(let i = 0; i < state.lists.length; i++) {
+        let list = state.lists[i]
+        if (list._id == listId) {
+          state.lists.splice(i, 1)
+          break
+        }
+      }
+    },
+    tasks(state, taskArr) {
+      let obj = {}
+      taskArr.forEach(task => {
+        if(!obj[task.listId]) {
+          obj[task.listId] = []
+        }
+        obj[task.listId].push(task)
+      })
+      state.tasks = obj
+    },
+    addTask(state, task) {
+      let taskArr = state.tasks[task.listId] || []
+      Vue.set(state.tasks, task.listId, [...taskArr, task])
+    },
+    removeTask(state, payload) {
+      let taskArr = state.tasks[payload.listId]
+      taskArr.forEach((task, i, arr) => {
+        if (task._id == payload.taskId) {
+          arr.splice(i, 1)
+        }
+      })
+      Vue.set(state.tasks, payload.listId, taskArr)
     }
   },
   actions: {
@@ -112,9 +148,42 @@ export default new Vuex.Store({
           commit('addList', res.data)
         })
         .catch(e => console.error(e))
-    }
-
-
+    },
+    deleteList({commit}, list) {
+      api.delete('lists/' + list._id)
+        .then(res => {
+          console.log(res.data.message)
+          commit('removeList', list._id)
+        })
+        .catch(e => console.error(e))
+    },
     //#endregion
+  
+
+    //#region -- TASKS --
+    getTasks({commit}, boardId){
+      api.get('tasks/' + boardId)
+        .then(res => {
+          commit('tasks', res.data)
+        })
+        .catch(e => console.error(e))
+    },    
+    addTask({commit}, task) {
+      api.post('tasks', task)
+        .then(res => {
+          console.log(res)
+          commit('addTask', res.data)
+        })
+        .catch(e => console.error(e))
+    },
+    moveTask({commit}, payload) {
+      api.put('tasks/' + payload.taskId, payload)
+        .then(res => {
+          commit('addTask', res.data)
+          commit('removeTask', payload)
+        })
+    }
+    
+    // #endregion
   }
 })

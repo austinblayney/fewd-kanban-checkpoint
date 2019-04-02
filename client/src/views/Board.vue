@@ -1,11 +1,13 @@
 <template>
-  <div class="board">
+  <div class="board container-fluid">
     {{board.title}}
-    <list v-for="list in lists" :listData='list'></list>
-    <form @submit.prevent="addList">
+    <div class="row">
+      <list v-for="list in lists" :listData='list'></list>
+    <form class="col-6 col-md-3 card" @submit.prevent="addList">
       <input v-model="newList.title" type="text" required placeholder="List Title">
       <button type="submit">Submit</button>
     </form>
+    </div>
   </div>
 </template>
 
@@ -16,6 +18,7 @@
     props: ["boardId"],
     mounted() {
       this.$store.dispatch('getLists', this.boardId)
+      this.$store.dispatch('getTasks', this.boardId)
     },
     data() {
       return {
