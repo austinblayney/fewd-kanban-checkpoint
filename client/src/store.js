@@ -68,13 +68,13 @@ export default new Vuex.Store({
       Vue.set(state.tasks, task.listId, [...taskArr, task])
     },
     removeTask(state, payload) {
-      let taskArr = state.tasks[payload.listId]
+      let taskArr = state.tasks[payload.oldListId]
       taskArr.forEach((task, i, arr) => {
         if (task._id == payload.taskId) {
           arr.splice(i, 1)
         }
       })
-      Vue.set(state.tasks, payload.listId, taskArr)
+      Vue.set(state.tasks, payload.oldListId, taskArr)
     }
   },
   actions: {

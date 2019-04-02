@@ -1,7 +1,6 @@
 let router = require('express').Router()
 let Task = require('../models/Task')
 
-
 router.get('/', (req, res, next) => {
     Task.find({})
         .then(tasks => res.send(tasks))
@@ -76,3 +75,11 @@ router.put('/:id/remove-comment', (req, res, next) => {
 })
 
 module.exports = router
+
+
+
+// router.delete('/drop', (req, res, next) => {
+//     Task.deleteMany({})
+//         .then(() => res.send('dropped collection'))
+//         .catch(next)
+// })

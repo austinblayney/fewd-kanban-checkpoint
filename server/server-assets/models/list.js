@@ -13,15 +13,16 @@ let schema = new Schema({
 }, { timestamps: true })
 
 //CASCADE ON DELETE
-// schema.pre('remove', function() {
-//   Task.deleteMany({ listId: this._id }, err => {
-//     if (err) {
-//       console.error(err)
-//       return
-//     }
-//     console.log('Tasks deleted!')
-//   })
-// })
+schema.pre('remove', function(next) {
+  Task.deleteMany({ listId: this._id }, err => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    console.log('Tasks deleted!')
+    next()
+  })
+})
 
 
 

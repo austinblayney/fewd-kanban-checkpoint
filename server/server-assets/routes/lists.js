@@ -27,3 +27,10 @@ router.delete('/:id', (req, res, next) => {
 })
 
 module.exports = router
+
+
+// router.delete('/drop', (req, res, next) => {
+//     List.deleteMany({})
+//         .then(() => res.send('dropped collection'))
+//         .catch(next)
+// })

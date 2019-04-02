@@ -27,7 +27,8 @@ export default {
    methods: {
        moveTask(e) {
            let listId = e.target.value
-           this.$store.dispatch('moveTask', {taskId: this.task._id, listId})
+           let { _id: taskId, listId: oldListId } = this.task
+           this.$store.dispatch('moveTask', { listId, taskId, oldListId})
        }
    },
    components: {}
