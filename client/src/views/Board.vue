@@ -34,7 +34,7 @@
     },
     methods: {
       addList() {
-        let list = {...this.newList, boardId: this.boardId}
+        let list = { ...this.newList, boardId: this.boardId }
         this.$store.dispatch('addList', list)
         this.newList = {
           title: ''
@@ -46,3 +46,10 @@
     }
   };
 </script>
+<style>
+  .board {
+    background-image: url("https://scontent-sea1-1.xx.fbcdn.net/v/t1.0-9/1922177_587923481301426_1171404669_n.jpg?_nc_cat=102&_nc_ht=scontent-sea1-1.xx&oh=6c9193cdd728760efdd546b9218ed30f&oe=5D02439F");
+    background-size: cover;
+    background-repeat: no-repeat
+  }
+</style>
