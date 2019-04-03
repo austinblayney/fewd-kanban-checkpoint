@@ -44,7 +44,7 @@ router.get('/', (req, res, next) => {
 router.put('/:id/add-comment', (req, res, next) => {
     Task.findById(req.params.id)
         .then(task => {
-            task.comments.add(req.body)
+            task.comments.push(req.body)
             task.save(err => {
                 if(err) {
                     return res.status(400).send({ err })

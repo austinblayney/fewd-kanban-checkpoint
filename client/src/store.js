@@ -75,6 +75,14 @@ export default new Vuex.Store({
         }
       })
       Vue.set(state.tasks, payload.oldListId, taskArr)
+    },
+    replaceTask(state, task) {
+      let taskArr = state.tasks[task.listId]
+      let index = taskArr.findIndex(t => t._id == task._id)
+      if (index != -1) {
+        taskArr[index] = task
+      }
+      Vue.set(state.tasks, task.listId, taskArr)
     }
   },
   actions: {
@@ -182,8 +190,28 @@ export default new Vuex.Store({
           commit('addTask', res.data)
           commit('removeTask', payload)
         })
-    }
+        .catch(e => console.error(e))
+    },
+    deleteTask({commit}, { _id: taskId, listId: oldListId }) {
+      api.delete('tasks/' + taskId)
+        .then(res => {
+          console.log(res)
+          commit('removeTask', {taskId, oldListId})
+        })
+        .catch(e => console.error(e))
+    },
     
+    // #endregion
+
+    // #region -- COMMENTS --
+    addComment({commit}, payload) {
+      api.put('tasks/' + payload.taskId + '/add-comment', payload.comment)
+        .then(res => {
+          console.log(res)
+          commit('replaceTask', res.data)
+        })
+        .catch(e => console.error(e))
+    }
     // #endregion
   }
 })
