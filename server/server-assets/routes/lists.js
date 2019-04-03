@@ -18,11 +18,19 @@ router.post('/', (req, res, next) => {
 })
 
 router.delete('/:id', (req, res, next) => {
-    List.findByIdAndRemove(req.params.id)
+    List.findById(req.params.id)
         .then(list => {
-            res.send({message: "List Deleted!"})
+            return list.remove()
         })
+        .then(() => res.send({ message: "List deleted!" }))
         .catch(next)
 })
 
 module.exports = router
+
+
+// router.delete('/drop', (req, res, next) => {
+//     List.deleteMany({})
+//         .then(() => res.send('dropped collection'))
+//         .catch(next)
+// })
