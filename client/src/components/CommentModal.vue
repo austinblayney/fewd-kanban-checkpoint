@@ -35,6 +35,9 @@ export default {
    methods: {
        addComment() {
            this.$store.dispatch('addComment', { taskId: this.task._id, comment: this.newComment })
+           this.newComment = {
+               content: ''
+           }
        }
    },
    components: {}

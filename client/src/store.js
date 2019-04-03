@@ -82,7 +82,7 @@ export default new Vuex.Store({
       if (index != -1) {
         taskArr[index] = task
       }
-      Vue.set(state.tasks, task.listId, taskArr)
+      Vue.set(state.tasks, task.listId, [...taskArr])
     }
   },
   actions: {
